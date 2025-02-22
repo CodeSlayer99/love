@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Message</title>
+     <style>
+      * {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-height: 100dvh;
+  perspective: 1000px;
+  font: 1em/1.4 "Poppins", sans-serif;
+  overflow: hidden;
+  color: hsl(180 68% 5%);
+  background-image: radial-gradient(
+      circle farthest-corner at 50% 50%,
+      hsl(187 20% 88%) 30%,
+      hsl(149 20% 94%) 100%
+  );
+}
+
+.book {
+  position: relative;
+  display: flex;
+  margin: auto;
+  width: 42cqmin; /* Increased width */
+  pointer-events: none;
+  transform-style: preserve-3d;
+  transition: translate 1s;
+  translate: calc(min(var(--c), 1) * 50%) 0%;
+  rotate: 1 0 0 30deg;
+}
+
+.page {
+  --thickness: 4;
+  flex: none;
+  display: flex;
+  width: 100%;
+  font-size: 2.2cqmin; /* Slightly increased font size */
+  pointer-events: all;
+  user-select: none;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  transition: transform 1s,
+      rotate 1s ease-in calc((min(var(--i), var(--c)) - max(var(--i), var(--c))) * 50ms);
+  translate: calc(var(--i) * -100%) 0px 0px;
+  transform: translateZ(calc((var(--c) - var(--i) - 0.5) * calc(var(--thickness) * 0.23cqmin)));
+  rotate: 0 1 0 calc(clamp(0, var(--c) - var(--i), 1) * -180deg);
+}
+
+.front,
+.back {
+  position: relative;
+  flex: none;
+  width: 100%;
+  backface-visibility: hidden;
+  overflow: hidden;
+  background-color: #fff;
+  translate: 0px;
+}
+
+.back {
+  translate: -100% 0;
+  rotate: 0 1 0 180deg;
+}
+
+.book {
+  counter-reset: page -1;
+}
+
+.book a {
+  color: inherit;
+}
+
+.page {
+  box-shadow: 0em 0.5em 1em -0.2em #00000020;
+}
+
+.front,
+.back {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  padding: 2em;
+  border: 1px solid #0002;
+}
+
+.front:has(img),
+.back:has(img) {
+  padding: 0;
+}
+
+.front img,
+.back img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.front::after,
+.back::after {
+  position: absolute;
+  bottom: 1em;
+  counter-increment: page;
+  content: counter(page) ".";
+  font-size: 0.8em;
+}
+
+.cover::after {
+  content: "";
+}
+
+.front::after {
+  right: 1em;
+}
+
+.front {
+  background: linear-gradient(to left, #f7f7f7 80%, #eee 100%);
+  border-radius: 0.1em 0.5em 0.5em 0.1em;
+}
+
+.back::after {
+  left: 1em;
+}
+
+.back {
+  background-image: linear-gradient(to right, #f7f7f7 80%, #eee 100%);
+  border-radius: 0.5em 0.1em 0.1em 0.5em;
+}
+
+.cover {
+  background: radial-gradient(
+          circle farthest-corner at 80% 20%,
+          hsl(150 80% 20% / 0.3) 0%,
+          hsl(170 60% 10% / 0.1) 100%
+      ),
+      hsl(231, 32%, 29%) url("us.jpg") 50% / cover;
+  color: hsl(0, 100%, 30%); /* Dark red text color for cover page */
+}
+
+h1,
+h2,
+h3 {
+  margin-bottom: 1px;
+  color: hsl(0, 100%, 30%); /* Dark red heading color */
+}
+
+p {
+  margin-top: 1px;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  color: hsl(0, 100%, 30%); /* Dark red text color for paragraphs */
+}
+
+.front,
+.back {
+  padding: 1.5em;
+  color: hsl(0, 100%, 30%); /* Dark red text color for front and back pages */
+}
+
+.book {
+  width: 40cqmin; /* Slightly increased width */
+}
+
+.page {
+  font-size: 2cqmin; /* Slightly increased font size */
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+.front,
+.back {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1.5em;
+}
+
+h2 {
+  margin-bottom: 5px;
+}
+
+p {
+  margin-top: 5px;
+  line-height: 1.4;
+}
+
+
+body {
+  margin: 0;
+  display: flex;
+  min-height: 100dvh;
+  perspective: 1000px;
+  font: 1em/1.4 "Poppins", sans-serif;
+  overflow: hidden;
+  color: hsl(180 68% 5%);
+  background: linear-gradient(to right, #ff7eb9, #ff65a3, #ff165d);
+  background-size: 400% 400%;
+  animation: gradientAnimation 10s ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Emoji Animation */
+.emoji {
+  position: absolute;
+  font-size: 3rem;
+  opacity: 0;
+  animation: floatEmojis 6s ease-in-out infinite;
+}
+
+@keyframes floatEmojis {
+  0% {
+    transform: translateY(100px);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-100px) rotate(20deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(100px);
+    opacity: 1;
+  }
+}
+
+/* Add random timing for each emoji */
+.emoji:nth-child(1) {
+  animation-delay: 0s;
+  left: 10%;
+}
+.emoji:nth-child(2) {
+  animation-delay: 1s;
+  left: 20%;
+}
+.emoji:nth-child(3) {
+  animation-delay: 2s;
+  left: 30%;
+}
+.emoji:nth-child(4) {
+  animation-delay: 3s;
+  left: 40%;
+}
+.emoji:nth-child(5) {
+  animation-delay: 4s;
+  left: 50%;
+}
+.emoji:nth-child(6) {
+  animation-delay: 5s;
+  left: 60%;
+}
+.emoji:nth-child(7) {
+  animation-delay: 6s;
+  left: 70%;
+}
+.emoji:nth-child(8) {
+  animation-delay: 7s;
+  left: 80%;
+}
+.emoji:nth-child(9) {
+  animation-delay: 8s;
+  left: 90%;
+}
+
+
+     </style>
+  </head>
+  <body>
+    <div class="book">
+      <div class="page">
+        <div class="front cover">
+          <h1
+            style="
+              color: rgb(255, 255, 255);
+              text-shadow: 5px 2px 5px rgb(0, 0, 0);
+            "
+          >
+            A Message for You🤍
+          </h1>
+
+          <p
+            style="
+              color: rgb(255, 255, 255);
+              text-shadow: 5px 2px 5px rgb(0, 0, 0);
+            "
+          >
+            my love.<br />
+          </p>
+        </div>
+        <div class="back">
+
+          <h2>MINE</h2>
+
+       <p>Door hokar bhi har pal saath rehte hain,
+        Din bhar baatein, raat bhar bhi baat karte rehte hain.
+        Subah ka "Good morning" aap se hota hai,
+        Raat ka "Good night" aap se he hota hai.
+        
+        Kabhi hansi, kabhi shikayat, kabhi bina wajah ke nakhre,
+        Teri har baat sunke din bhi apna lagta hai, raat bhi apni lagti hai.
+        Ek phone call se mood set ho jata hai,
+        Teri awaaz sunte hi dil khush ho jata hai..❣️💫</p>
+
+          <p>
+            
+        </div>
+      </div>
+      <!--2nd page-->
+      <div class="page">
+        <div class="front">
+          <h2>❤️✨</h2>
+          <p>
+            Pehli baar dekha toh bas ek naam tha,
+            Koi khaas nahi, ek ajnabi insaan tha.
+            Aaj bina tere din kaam ka nahi lagta,
+            Tu door hoke bhi har pal saath lagta...
+            
+            Kabhi socha nahi tha itna kareeb aa jaayenge,
+            Har chhoti baat ek doosre se keh jaayenge.
+            Ajnabi se dosti, dosti se pyaar tak,
+            Ab toh bas tu hi tu hai, har ikraar tak...💕
+          </p>
+        </div>
+        <div class="back">
+          <img src="lakshu.jpg" alt="Img 1" />
+        </div>
+      </div>
+      <!--3rd page-->
+      <div class="page">
+        <div class="front">
+          <h2>The Magic of You ✨💖</h2>
+          <p>
+            Tu aayi toh zindagi ek kahani ban gayi,
+Teri yaadein har raat ek nayi shayari ban gayi.
+Kabhi hasi, kabhi shikayat, kabhi sirf ek "hmm.."
+Teri har chhoti baat bhi mujhe khoobsurat lagti hai.
+
+Jo har din special bana de, usse jaadu nahi toh kya kahoon?
+Jo door hoke bhi paas rahe, usse apna nahi toh kya kahoon?
+Tu sirf ek naam nahi, tu ek ehsaas hai,
+Tu mere liye ek jaadu hai, jo har din mere saath hai...✨💖
+          </p>
+        </div>
+        <div class="back">
+          <h2>my power💫✨</h2>
+          <p>
+            Tere hone se hi himmat aa jati hai,
+            Har mushkil bhi aasaan lag jati hai.
+            Door hoke bhi tu saath chalti hai,
+            Meri har kamzori ki tu taqat ban jati hai...🤞❤️
+          </p>
+        </div>
+      </div>
+      <!--4th page-->
+      <div class="page">
+        <div class="front">
+          <h2>The Best Part of My Day🤞💖</h2>
+          <p>
+            Subah teri awaaz se din shuru hota hai,
+            Teri baaton mein hi sukoon chhupa hota hai.
+            Din chahe jaise bhi guzre, ek baat pakki hai,
+            Tera ek call ya message aate hi sab theek lagta hai... 💕📱
+          </p>
+        </div>
+        <div class="back">
+          <img src="sweet heart.jpg" alt="Img 1" />
+        </div>
+      </div>
+      <!--5th page-->
+      <div class="page">
+        <div class="front">
+          <h1>A Wish from the Heart 💫💖</h1>
+          <p>
+            Teri har subah khushiyon se bhari ho,
+Teri har raat sukoon wali ho.
+Jo tu chahe, wo tujhe mil jaye,
+Hamesha tere chehre pe hasi ho... ✨
+          </p>
+        </div>
+        <div class="back">
+          <h1>Always Here for You 💖✨</h1>
+          <p>
+            Tu aankh band kar ke dekh,
+Main hamesha tere paas hoon.
+Door hokar bhi har pal,
+Tere dil ke ekdum paas hoon...💕
+          </p>
+        </div>
+      </div>
+      <!--6th page-->
+      <div class="page">
+        <div class="front">
+          <h2>The Beauty of You ✨💖</h2>
+          <p>
+            Teri muskurahat din roshan kar deti hai,
+Teri awaaz mein ek alag si shanti hai.
+Tu sirf khubsurat nahi, dil se bhi pyaari hai,
+Har baat teri ek khas ehsaas hai,
+Tu jaise bhi hai, bas meri hai hai...💟🫶
+          </p>
+        </div>
+        <div class="back">
+          <h2>✨💖</h2>
+          <p>log dub ta hai samudra pe hum teri ankho pe dub ne ko tyar hain
+            tujhe joo chiye tu bus bol ke toh dekh meri jaan 
+            tera har hukum meri sar ankho pr hai ❤️
+          </p>
+        </div>
+      </div>
+      <!--7th page-->
+      <div class="page">
+        <div class="front">
+          <h2>🌹❤</h2>
+          <p>
+            Teri wajah se har din khaas lagta hai,
+Teri baatein dil ko sukoon deta hai.
+Tu door ho, phir bhi paas lagta hai,
+Tere bina sab adhoora sa lagta hai,
+Tu meri zindagi ka sabse khoobsurat hissa hai... 💖. 💕
+          </p>
+        </div>
+        <div class="back">
+          <p>Teri aankhein gehri kahaniyaan kehti hain,
+            Teri muskurahat din ko roshan karti hai.
+            Tera chehra itna pyara, nazar jo ek baar thi,
+            Har pal tujh mein ek nayi khoobsurti dikhti hai,
+            Jise dekh ke dil bas tera ho jata hai... 💕💖</p>
+        </div>
+      </div>
+
+      <div class="page">
+        <div class="front">
+          <img src="mine.jpg" alt="Img 1" />
+        </div>
+        <div class="back cover">
+          <h3>my Cutest Queen
+            I LOVE YOU SOO MUCH MERI JAAN
+          </h3>
+          <p>
+            <br /><a
+              href=""
+              target="_blank"
+              rel="nofollow"></a>
+
+            <br />
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="emoji">❤️‍🔥</div>
+<div class="emoji">🫶🏻</div>
+<div class="emoji">❤️</div>
+<div class="emoji">😘</div>
+<div class="emoji">👨‍❤️‍💋‍👨</div>
+<div class="emoji">💓</div>
+<div class="emoji">❣️</div>
+<div class="emoji">💘</div>
+<div class="emoji">💖</div>
+<div class="emoji">💙</div>
+<div class="emoji">💚</div>
+<div class="emoji">🥰</div>
+<div class="emoji">💗</div>
+
+<script>
+  const flipBook = (elBook) => {
+    elBook.style.setProperty("--c", 0); // Set current page
+    elBook.querySelectorAll(".page").forEach((page, idx) => {
+      page.style.setProperty("--i", idx);
+      page.addEventListener("click", (evt) => {
+        if (evt.target.closest("a")) return;
+        const curr = evt.target.closest(".back") ? idx : idx + 1;
+        elBook.style.setProperty("--c", curr);
+      });
+    });
+  };
+  
+  document.querySelectorAll(".book").forEach(flipBook);
+  
+</script>
+ 
+  </body>
+</html>
+
